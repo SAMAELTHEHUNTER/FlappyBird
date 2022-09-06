@@ -6,6 +6,7 @@ public class HazardManager : MonoBehaviour
 {
     [SerializeField] private float m_Velocity=1;
     [SerializeField] private Transform[] m_Hazards;
+    [SerializeField] private GameObject[] m_coins;
     [SerializeField] private float[] m_HazardsYPos;
     [SerializeField] private Transform m_CameraTransfrom;
     [SerializeField] private float m_DistanceFormCamera;
@@ -24,6 +25,7 @@ public class HazardManager : MonoBehaviour
                 var xPos = m_lastHazardX + m_HazardsDistance;
                 m_Hazards[i].transform.localPosition = new Vector3(xPos, RandomYPos());
                 m_lastHazardX = xPos;
+                m_coins[i].gameObject.SetActive(true);
             }
         }
     }

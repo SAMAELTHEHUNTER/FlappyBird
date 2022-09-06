@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,12 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Sprite UpSprite;
     public Sprite DownSprite;
+    public Sprite BtSprite;
 	public Text ScoreTxt;
-	int Score = 0;
+    public Text CoinsTxt;
+    public AudioSource audio;
+    int Score = 0;
+    int coins = 0;
     private void Start()
     {
         m_PlayerRigidBody2D=m_Player.GetComponent<Rigidbody2D>();
@@ -25,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !m_IsGameOver)
         {
-            spriteRenderer.sprite = DownSprite;
             print("Jump");
             m_PlayerRigidBody2D.velocity=new Vector2(m_PlayerRigidBody2D.velocity.x,m_ForceMultiplier);
         }
@@ -34,8 +38,12 @@ public class PlayerMovement : MonoBehaviour
         if(v1.y > 0) {
             spriteRenderer.sprite = DownSprite;
         }
-        if (v1.y < 0) {
+        else if (v1.y < 0) {
             spriteRenderer.sprite = UpSprite;
+        }
+        else
+        {
+            spriteRenderer.sprite = BtSprite;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -47,9 +55,22 @@ public class PlayerMovement : MonoBehaviour
             print("Player is Dead!");
             m_GameOverUI.SetActive(true);
         }
-		if (collision.tag.Equals("CheckPoint")) {
+		else if (collision.tag.Equals("CheckPoint")) {
 			Score++;
 			ScoreTxt.text = "SCORE: " + Score.ToString();
 		}
+
+        else if (collision.tag.Equals("Coin"))
+        {
+            audio.Play();
+            coins++;
+            CoinsTxt.text = "COIN: " + coins.ToString();
+            collision.gameObject.SetActive(false);
+
+        }
+    }
+    IEnumerator Example()
+    {
+        yield return new WaitForSeconds(100);
     }
 }

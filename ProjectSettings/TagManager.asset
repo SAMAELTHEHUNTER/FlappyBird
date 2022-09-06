@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hazard
   - CheckPoint
+  - Coin
   layers:
   - Default
   - TransparentFX
@@ -40,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: coins
+    uniqueID: 3895543735
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
